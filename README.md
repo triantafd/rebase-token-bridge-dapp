@@ -1,10 +1,20 @@
-# Cross-Chain Rebase Token Bridge Frontend
+# Rebase Token Bridge DApp
+
+🌉 **Frontend DApp for [Cyfrin Foundry Cross-Chain Rebase Token Course](https://github.com/Cyfrin/foundry-cross-chain-rebase-token-cu)**
 
 A Next.js frontend application for bridging rebase tokens across different blockchain networks using Chainlink CCIP (Cross-Chain Interoperability Protocol).
 
+## About
+
+React frontend for the cross-chain rebase token system. Allows users to deposit ETH on Sepolia and bridge rebase tokens to Arbitrum Sepolia using Chainlink CCIP.
+
+## 🏗️ Smart Contracts
+
+**Backend Repository:** [foundry-cross-chain-rebase-token-cu](https://github.com/Cyfrin/foundry-cross-chain-rebase-token-cu)
+
 ## Features
 
-- **Wallet Connection**: Connect with MetaMask and WalletConnect
+- **Wallet Connection**: Connect with MetaMask
 - **Multi-Chain Support**: Bridge between Sepolia and Arbitrum Sepolia testnets
 - **Rebase Token Management**: Deposit ETH to mint rebase tokens that earn interest
 - **Cross-Chain Bridging**: Transfer tokens between supported chains using CCIP
@@ -25,7 +35,7 @@ A Next.js frontend application for bridging rebase tokens across different block
 ### Prerequisites
 
 - Node.js 18+ and npm
-- MetaMask or compatible wallet
+- MetaMask wallet
 - Testnet ETH on Sepolia and/or Arbitrum Sepolia
 
 ### Installation
@@ -41,22 +51,15 @@ cd frontend
 npm install
 ```
 
-3. Configure environment variables:
-Create a `.env.local` file with:
-```env
-NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id
-NEXT_PUBLIC_INFURA_KEY=your_infura_key
-```
+3. Update contract addresses:
+Edit `src/constants/contracts/` with your deployed contract addresses.
 
-4. Update contract addresses:
-Edit `src/constants/contracts.ts` with your deployed contract addresses.
-
-5. Run the development server:
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Contract Integration
 
@@ -79,11 +82,10 @@ The frontend integrates with the following smart contracts:
 
 ## Usage
 
-1. **Connect Wallet**: Click "Connect Wallet" and select your preferred wallet
-2. **Deposit ETH**: Use the "Deposit ETH to Vault" button to mint rebase tokens
-3. **Select Chains**: Choose source and destination chains for bridging
-4. **Enter Amount**: Specify the amount of tokens to bridge
-5. **Bridge Tokens**: Execute the cross-chain transfer
+1. **Connect Wallet**: Click "Connect Wallet" and MetaMask will open
+2. **Deposit ETH**: Use the Deposit Tab to deposit ETH and mint rebase tokens
+3. **Bridge Tokens**: Use the Bridge Tab to transfer tokens from Sepolia to Arbitrum
+4. **Monitor Balances**: View real-time balances across both chains
 
 ## Supported Networks
 
@@ -93,13 +95,17 @@ The frontend integrates with the following smart contracts:
 ## Key Components
 
 ### WagmiProvider
-Configures Wagmi with supported chains and wallet connectors.
+Configures Wagmi with supported chains and MetaMask connector.
 
-### Contract Constants
-Centralized configuration for contract addresses, ABIs, and chain settings.
+### Component Organization
+- **BridgeTab/**: Cross-chain bridging interface
+- **DepositTab/**: ETH deposit and token minting
+- **WalletInfo/**: Wallet connection and balance display
+- **Header/**: Navigation and chain info
+- **InfoSection/**: User guidance and information
 
-### Bridge Interface
-Main UI component handling wallet connection, chain selection, and bridge operations.
+### Bridge Logic
+Custom hooks handle bridge operations, fee estimation, and transaction status.
 
 ## Development
 
@@ -107,28 +113,38 @@ Main UI component handling wallet connection, chain selection, and bridge operat
 ```
 src/
 ├── app/
-│   ├── layout.tsx          # Root layout with providers
-│   ├── page.tsx            # Main bridge interface
+│   ├── layout.tsx              # Root layout with providers
+│   ├── page.tsx                # Main application interface
 │   └── providers/
-│       └── WagmiProvider.tsx # Wagmi configuration
+│       └── WagmiProvider.tsx   # Wagmi configuration (MetaMask only)
+├── components/
+│   ├── BridgeTab/              # Bridge interface components
+│   ├── DepositTab/             # Deposit interface components  
+│   ├── WalletInfo/             # Wallet and balance components
+│   ├── Header/                 # Header components
+│   └── InfoSection/            # Information components
+├── hooks/
+│   └── useBridgeLogic.ts       # Bridge operations logic
 ├── constants/
-│   └── contracts.ts        # Contract addresses and ABIs
-└── globals.css             # Global styles
+│   ├── chains/                 # Chain configurations
+│   ├── contracts/              # Contract addresses and ABIs
+│   └── index.ts                # Exported constants
+└── globals.css                 # Global styles
 ```
 
 ### Adding New Chains
 
-1. Add chain configuration to `CHAIN_CONFIG` in `contracts.ts`
-2. Add contract addresses for the new chain
-3. Update the chain selection UI in `page.tsx`
-4. Configure the new chain in `WagmiProvider.tsx`
+1. Add chain configuration to `src/constants/chains/`
+2. Add contract addresses in `src/constants/contracts/`
+3. Update the WagmiProvider configuration
+4. Update chain selection UI components
 
 ### Extending Functionality
 
 - Add new contract interactions by extending the ABI arrays
-- Implement additional UI components for advanced features
+- Create new components in the respective directories
 - Add transaction history and status tracking
-- Integrate with additional wallet providers
+- Implement additional bridge features
 
 ## Security Considerations
 
@@ -136,6 +152,12 @@ src/
 - Use testnet tokens for development and testing
 - Implement proper error handling for failed transactions
 - Validate user inputs and transaction parameters
+
+## 🔗 Related
+
+- **Smart Contracts:** [Cyfrin Course Repo](https://github.com/Cyfrin/foundry-cross-chain-rebase-token-cu)
+- **Course:** Cyfrin Foundry Solidity Course
+- **Technology:** Chainlink CCIP, React, Next.js
 
 ## Contributing
 
@@ -152,3 +174,7 @@ This project is licensed under the MIT License.
 ## Support
 
 For questions and support, please refer to the documentation or create an issue in the repository.
+
+---
+
+*This frontend implements the user interface for the cross-chain rebase token system from the Cyfrin Foundry course.*
